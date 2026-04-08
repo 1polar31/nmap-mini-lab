@@ -1,0 +1,29 @@
+services:
+  target:
+    build: ./target
+    container_name: ctf-target
+    hostname: target
+    networks:
+      lab:
+        ipv4_address: 10.20.30.10
+    restart: unless-stopped
+
+  attacker:
+    image: instrumentisto/nmap:latest
+    container_name: ctf-attacker
+    hostname: attacker
+    stdin_open: true
+    tty: true
+    entrypoint: /bin/sh
+    depends_on:
+      - target
+    networks:
+      lab:
+        ipv4_address: 10.20.30.20
+
+networks:
+  lab:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 10.20.30.0/24
