@@ -49,53 +49,7 @@ The flag format is: `FLAG{...}`
 
 1. A basic Nmap scan tells you which ports are open. A *better* scan tells you what software is running on each port — and what version.
 2. Service banners often leak more information than developers realize. Pay close attention to version strings.
-3. The Nmap flag you need starts with `-s` and stands for "service version detection."
-
----
-
-## Walkthrough (spoilers)
-
-> Try the challenge yourself first. Come back here only if you get stuck.
-
-### Step 1: Basic port scan
-
-Start with a default scan to see what's open on the target:
-
-```
-nmap 10.20.30.10
-```
-
-**Expected output:**
-```
-PORT     STATE SERVICE
-21/tcp   open  ftp
-22/tcp   open  ssh
-80/tcp   open  http
-8080/tcp open  http-proxy
-```
-
-You can see four ports are open, but Nmap is just guessing the services based on standard port numbers. There's no flag visible yet.
-
-### Step 2: Service version detection
-
-The default scan doesn't tell us what software is actually running — only what *should* be running on those ports. To get version info, we need the `-sV` flag:
-
-```
-nmap -sV 10.20.30.10
-```
-
-**Expected output:**
-```
-PORT     STATE SERVICE      VERSION
-21/tcp   open  ftp          ProFTPD 1.3.5-FLAG{nmap_service_version_detection} Server (NovaCorp FTP)
-22/tcp   open  ssh          OpenSSH 8.2p1 Ubuntu 4ubuntu0.5
-80/tcp   open  http         Apache httpd 2.4.41 ((Ubuntu))
-8080/tcp open  http-proxy   nginx 1.18.0
-```
-
-There it is — the flag is embedded in the FTP service version banner. Nmap connected to port 21, read the banner the FTP server sent back, and parsed it as version info.
-
-### 🚩 Flag: `FLAG{nmap_service_version_detection}`
+3. How do you find the service Version again?
 
 ---
 
